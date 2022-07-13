@@ -249,8 +249,8 @@ class MenuCard {
                 e.preventDefault(); // отключаем стандартное поведение браузера (станица не перезагружается)
 
             const statusMessage = document.createElement('img'); // создание нового блока, в котором будет выводиться сообщение-статус
-            statusMessage.src = message.loading; //пути к картинке сообщения о статусе присваиваем адрес спинера
-            statusMessage.style.cssText = `
+                statusMessage.src = message.loading; //пути к картинке сообщения о статусе присваиваем адрес спинера
+                statusMessage.style.cssText = `
                     display: block;
                     margin: 0 auto;
             `;
@@ -292,7 +292,6 @@ class MenuCard {
                 form.reset(); // очищаем содержимое формы
             });
            
-
             // request.addEventListener('load', () => { // при успешной загрузке данных
             //     if (request.status === 200) {
             //         console.log(request.response);
