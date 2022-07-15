@@ -22,3 +22,6 @@ inputRub.addEventListener('input', (e) => {
         }
     });
 });
+// https://github.com/NickZheshko/JavaScript-course.git
+
+// i love Jesus
