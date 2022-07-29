@@ -287,4 +287,63 @@ window.addEventListener('DOMContentLoaded', () => {
     fetch('http://localhost:3000/menu')
         .then(data => data.json())
 
+
+    //Slider
+
+    const slides = document.querySelectorAll('.offer__slide');  
+    const currentIndex = document.querySelector('#current'),
+          total = document.querySelector('#total');
+          prev = document.querySelector('.offer__slider-prev'),
+          next = document.querySelector('.offer__slider-next');
+    let slideIndex = 1;
+    
+    // if (slides.length < 10) {
+    //     total.textContent = `0${slides.length}`;
+    // } else {
+    //     total.textContent = slides.length;
+    // }
+
+    function showSlides(n) {
+
+        if (n < 1) {
+            slideIndex = slides.length;      // если с 1 картинки клик назад
+        } 
+
+        if (n > slides.length) {
+            slideIndex = 1;                 // если с последней картинки клик вперед
+        } 
+
+        slides.forEach((item) => {
+            item.classList.add('hide');
+        });
+
+       slides[slideIndex - 1].classList.remove('hide');
+       currentIndex.textContent = `gt0${slideIndex}`;
+
+    //    if (slides.length < 10) {
+    //         currentIndex.textContent = `0${slideIndex}`;
+    //    } else {
+    //         currentIndex.textContent = slideIndex;
+    //    }
+    }
+
+    showSlides(slideIndex);
+
+    function changeIndex (n) {
+        showSlides(slideIndex += n);        // изменяем индекс перед тем как передать в ф-цию (сразу при нажатии на кнопку)
+    }
+
+    prev.addEventListener('click', () => {
+        changeIndex(-1);
+    })
+
+    next.addEventListener('click', () => {
+        changeIndex(1);
+    })
+
 });
+
+
+https://github.com/NickZheshko/JavaScript-course.git
+
+
