@@ -292,16 +292,28 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const slides = document.querySelectorAll('.offer__slide');  
     const currentIndex = document.querySelector('#current'),
-          total = document.querySelector('#total');
+          slider = document.querySelector('.offer__slider'),
+          total = document.querySelector('#total'),
           prev = document.querySelector('.offer__slider-prev'),
           next = document.querySelector('.offer__slider-next'),
           slidesWrapper = document.querySelector('.offer__slider-wrapper'),
           slidesField = document.querySelector('.offer__slider-inner'),
+          dots = [];
           width = window.getComputedStyle(slidesWrapper).width;  // берет св-во width (тип - строка) у возвращенного объекта с примененными стилями (с пикселями)
 
     let slideIndex = 1,
         offset = 0;
 
+    function convert(w) {
+        return  +w.replace(/\D/ig, "");         // удаляем все, что не цифры
+    }
+
+    function changeDotsOpacity() {
+            dots.forEach(dot => dot.style.opacity ='.5');        // 50 %   
+            dots[slideIndex - 1].style.opacity = 1; 
+    }
+
+    function changeSliderCounter() {
         if (slides.length < 10) {
             total.textContent = `0${slides.length}`;
             currentIndex.textContent = `0${slideIndex}`;
@@ -309,6 +321,9 @@ window.addEventListener('DOMContentLoaded', () => {
             total.textContent = slides.length;
             currentIndex.textContent = slideIndex;
         }
+    }
+
+        changeSliderCounter();
 
         slidesField.style.width = 100 * slides.length + '%';
         slidesField.style.display = 'flex';
@@ -321,14 +336,31 @@ window.addEventListener('DOMContentLoaded', () => {
             slide.style.width = width;
         });
 
+        slider.style.position = 'relative';
+
+        const indicators = document.createElement('ol');      // для точек
+        indicators.classList.add('carousel-indicators');     // класс, скопированный из доп.файла styles.css   
+        slider.append(indicators);  
+
+        for (let i = 0; i < slides.length; i++) {            // в цикле создаются точки для слайда
+            const dot = document.createElement('li');
+            dot.setAttribute('data-slide-to', i + 1);       // два параметра - название и значение (name, value)
+            dot.classList.add('dot');
+            if (i == 0) {
+                dot.style.opacity = 1;
+            }
+            indicators.append(dot);  
+            dots.push(dot);   
+        }
+
         next.addEventListener('click', () => {
-            if (offset == (width.slice(0, width.length - 2)) * (slides.length - 1)) { // преобразуем строку в число (если долистали до конца)
+            if (offset == convert(width) * (slides.length - 1)) { // преобразуем строку в число (если долистали до конца)
                 offset = 0;
             } else {
-                offset += +(width.slice(0, width.length - 2))
+                offset += convert(width);             // регулярка, чтобы обрезать px в конце строки
             }
 
-            slidesField.style.transform = `translateX(-${offset}px)`;
+            slidesField.style.transform = `translateX(-${offset}px)`;       // производим смещение
 
             if (slideIndex == slides.length) {
                 slideIndex = 1;
@@ -336,18 +368,16 @@ window.addEventListener('DOMContentLoaded', () => {
                 slideIndex++;
             }
 
-            if (slides.length < 10) {
-                currentIndex.textContent = `0${slideIndex}`;
-            } else {
-                currentIndex.textContent = slideIndex;
-            }
+            changeSliderCounter();
+
+            changeDotsOpacity();
         });
         
         prev.addEventListener('click', () => {
             if (offset == 0) { 
-                offset = +(width.slice(0, width.length - 2)) * (slides.length - 1);
+                offset = convert(width) * (slides.length - 1); // регулярка, чтобы обрезать px в конце строки
             } else {
-                offset -= +(width.slice(0, width.length - 2))
+                offset -= convert(width);
             }
             
             slidesField.style.transform = `translateX(-${offset}px)`;
@@ -358,12 +388,56 @@ window.addEventListener('DOMContentLoaded', () => {
                 slideIndex--;
             }
 
-            if (slides.length < 10) {
-                currentIndex.textContent = `0${slideIndex}`;
-            } else {
-                currentIndex.textContent = slideIndex;
-            }
+            changeSliderCounter();
+
+            changeDotsOpacity();
     });
+      
+            dots.forEach(dot => {
+                dot.addEventListener('click', (e) => {
+                    const slideTo = e.target.getAttribute('data-slide-to');     // получаем значение атрибутов (они соответствуют номерам точек в массиве: 1, 2, 3, 4)
+
+                    slideIndex = slideTo;
+                    offset = convert(width) * (slideTo - 1);
+
+                    slidesField.style.transform = `translateX(-${offset}px)`;
+
+                    changeSliderCounter();
+
+                    changeDotsOpacity();
+                });
+            });
+
+    // Calc
+    
+    const result = document.querySelector('.calculating__result span'); // результат по калориям
+    let sex, height, weight, age, ratio;                                    // ratio - коэффициент
+
+    function calcTotal() {
+        if (!sex || !height || !weight || !age || !ratio) {
+            result.textContent = '=(';
+            return;
+        }
+
+        if (sex === 'female') {
+            result.textContent = (447.6 + (9.2 * weight) + (3.1 * height) - (4.3 * age)) * ratio;
+        } else {
+            result.textContent = (88.36 + (13.4 * weight) + (4.8 * height) - (5.7 * age)) * ratio;
+        }
+    }
+
+        calcTotal();
+
+        function getStaticInformation(parentSelector, activeClass) {
+            const elements = document.querySelectorAll(`${parentSelector} div`);
+        }
+
+
+
+
+
+
+
 
          
     // if (slides.length < 10) {
@@ -409,5 +483,5 @@ window.addEventListener('DOMContentLoaded', () => {
     // next.addEventListener('click', () => {
     //     changeIndex(1);
     // })
-
+        
 });
