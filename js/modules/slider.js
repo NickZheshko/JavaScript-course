@@ -1,14 +1,14 @@
-function slider () {
+function slider ({container, slide, nextArrow, prevArrow, totalCounter, currentCounter, wrapper, field}) {
      //Slider
 
-     const slides = document.querySelectorAll('.offer__slide');  
-     const currentIndex = document.querySelector('#current'),
-           slider = document.querySelector('.offer__slider'),
-           total = document.querySelector('#total'),
-           prev = document.querySelector('.offer__slider-prev'),
-           next = document.querySelector('.offer__slider-next'),
-           slidesWrapper = document.querySelector('.offer__slider-wrapper'),
-           slidesField = document.querySelector('.offer__slider-inner'),
+     const slides = document.querySelectorAll(slide);  
+     const currentIndex = document.querySelector(currentCounter),
+           slider = document.querySelector(container),
+           total = document.querySelector(totalCounter),
+           prev = document.querySelector(prevArrow),
+           next = document.querySelector(nextArrow),
+           slidesWrapper = document.querySelector(wrapper),
+           slidesField = document.querySelector(field),
            dots = [],
            width = window.getComputedStyle(slidesWrapper).width;  // берет св-во width (тип - строка) у возвращенного объекта с примененными стилями (с пикселями)
  

@@ -1,8 +1,9 @@
 import {closeModalWindow, openModalWindow} from './modal';
+import {postData} from '../services/services';
 
-function forms (modalWindowTimerId) {
+function forms (formSelector, modalWindowTimerId) {
      //Forms
-     const forms = document.querySelectorAll('form'); // собираем все формы в Node list
+     const forms = document.querySelectorAll(formSelector); // собираем все формы в Node list
 
      const message = {
          loading: 'img/form/spinner.svg',
@@ -14,17 +15,6 @@ function forms (modalWindowTimerId) {
          bindPostData(item);
      }); // вешаем ф-цию postData на все forms
  
-     const postData = async (url, data) => {
-         res = await fetch(url, {
-             method: "POST",
-             headers: {
-                 'Content-type': 'application/json'
-             },
-             body: data
-         });
- 
-         return await res.json();
-     };
  
      function bindPostData(form) {
          form.addEventListener('submit', (e) => { // отправка данных с формы
@@ -48,7 +38,6 @@ function forms (modalWindowTimerId) {
                      statusMessage.remove(); // удалить блок с сообщением
                  }).catch(() => {
                      showThanksModal(message.failure);
-                     console.log(data);
                  }).finally(() => {
                      form.reset(); // очищаем содержимое формы
                  });

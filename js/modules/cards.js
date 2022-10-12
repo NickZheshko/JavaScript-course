@@ -1,3 +1,5 @@
+import {getResource} from '../services/services';
+
 function cards() {
     class MenuCard {
         constructor(src, alt, title, descr, price, parentSelector) {
@@ -32,16 +34,6 @@ function cards() {
             this.parent.append(element);
         }
     }
-    const getResource = async (url) => {
-       let res = await fetch(url);
-
-        if (!res.ok) {
-            throw new Error(`Could not fetch ${url}, status: ${res.status}`); // если какая-то ошибка (не ок), кидаем сообщение об ошибке
-        }
-
-        return await res.json(); // возвращаем результат в обычном виде
-    };
-
     getResource('http://localhost:3000/menu') // вызываем ф-цию с методом GET
         .then(data => {
             data.forEach(({

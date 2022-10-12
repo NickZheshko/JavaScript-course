@@ -1,7 +1,5 @@
-function timer () {
+function timer (id, deadline) {
      // Timer
-
-     let deadline = '2022-10-28';
 
      function getTimeRemaning(endtime) {
          let t = Date.parse(endtime) - Date.parse(new Date()),
@@ -52,7 +50,7 @@ function timer () {
          }
      }
  
-     setClock('.timer', deadline);
+     setClock(id, deadline);
  
 }
 

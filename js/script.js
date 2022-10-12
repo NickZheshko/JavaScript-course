@@ -13,14 +13,22 @@ window.addEventListener('DOMContentLoaded', () => {
 
     let modalWindowTimerId = setTimeout( () => openModalWindow('.modal', modalWindowTimerId), 50000); //запускаем функция openModalWindow через 5 сек после загрузки страницы
 
-      tabs();
+      tabs('.tabheader__item', '.tabcontent', '.tabheader__items', 'tabheader__item_active');
       modal('[data-modal]', '.modal', modalWindowTimerId);
-      timer();
+      timer('.timer', '2023-02-17');
       cards();
-      timer();
       calc();
-      forms(modalWindowTimerId);
-      slider();
+      forms('form', modalWindowTimerId);
+      slider({
+        container: '.offer__slider',
+        nextArrow: '.offer__slider-next',
+        slide: '.offer__slide',
+        prevArrow: '.offer__slider-prev',
+        totalCounter: '#total',
+        currentCounter: '#current',
+        wrapper: '.offer__slider-wrapper',
+        field: '.offer__slider-inner'
+      });
   
          
     // if (slides.length < 10) {
