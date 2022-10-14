@@ -634,7 +634,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "postData": () => (/* binding */ postData)
 /* harmony export */ });
 const postData = async (url, data) => {
-    res = await fetch(url, {
+   let res = await fetch(url, {
         method: "POST",
         headers: {
             'Content-type': 'application/json'
